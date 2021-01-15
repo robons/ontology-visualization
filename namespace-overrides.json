@@ -1,0 +1,26 @@
+[
+    {
+        "prefix": "gss-data",
+        "uri": "http://gss-data.org.uk/data/gss_data/"
+    },    
+    {
+        "prefix": "gss-ref",
+        "uri": "http://gss-data.org.uk/ref/"
+    },
+    {
+        "prefix": "gss-measures",
+        "uri": "http://gss-data.org.uk/def/measure/"
+    },
+    {
+        "prefix": "gss-units",
+        "uri": "http://gss-data.org.uk/def/concept/measurement-units/"
+    },
+    {
+        "prefix": "covid19",
+        "uri": "http://gss-data.org.uk/data/gss_data/covid-19/"
+    },    
+    {
+        "prefix": "trade",
+        "uri": "http://gss-data.org.uk/data/gss_data/trade/"
+    }
+]

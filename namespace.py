@@ -199,7 +199,7 @@ class NamespaceManager(object):
         >>>
 
     """
-    def __init__(self, graph):
+    def __init__(self, graph, namespace_overrides):
         self.graph = graph
         self.__cache = {}
         self.__cache_strict = {}
@@ -212,6 +212,11 @@ class NamespaceManager(object):
         self.bind("rdf", RDF)
         self.bind("rdfs", RDFS)
         self.bind("xsd", XSD)
+
+        self._namespace_overrides = []
+        for override in namespace_overrides:
+            self._namespace_overrides.append(override["uri"])
+            self.bind(override["prefix"], override["uri"])
 
     def reset(self):
         self.__cache = {}
@@ -245,7 +250,7 @@ class NamespaceManager(object):
         form for URIs: <...URI...>
         """
         try:
-            namespace, name = split_uri(rdfTerm)
+            namespace, name = split_uri(rdfTerm, self._namespace_overrides)
             if namespace not in self.__strie:
                 insert_strie(self.__strie, self.__trie, str(namespace))
             namespace = URIRef(str(namespace))
@@ -272,7 +277,7 @@ class NamespaceManager(object):
 
         if uri not in self.__cache:
             try:
-                namespace, name = split_uri(uri)
+                namespace, name = split_uri(uri, namespace_overrides=self._namespace_overrides)
             except ValueError as e:
                 namespace = URIRef(uri)
                 prefix = self.store.prefix(namespace)
@@ -315,7 +320,7 @@ class NamespaceManager(object):
         else:
             if uri not in self.__cache_strict:
                 try:
-                    namespace, name = split_uri(uri, NAME_START_CATEGORIES)
+                    namespace, name = split_uri(uri, NAME_START_CATEGORIES, self._namespace_overrides)
                 except ValueError as e:
                     message = ('This graph cannot be serialized to a strict format '
                                'because there is no valid way to shorten {uri}'.format(uri))
@@ -496,10 +501,16 @@ def is_ncname(name):
 
 XMLNS = "http://www.w3.org/XML/1998/namespace"
 
-
-def split_uri(uri, split_start=SPLIT_START_CATEGORIES):
+def split_uri(uri, split_start=SPLIT_START_CATEGORIES, namespace_overrides = []):
     if uri.startswith(XMLNS):
         return (XMLNS, uri.split(XMLNS)[1])
+    overriding_prefixes = [(len(override), override) for override in namespace_overrides if uri.startswith(override)]
+    if len(overriding_prefixes) > 0:
+        # Get longest matching override (most specific)
+        overriding_prefixes.sort(key=lambda override: override[0])
+        override = overriding_prefixes[-1][1]
+        return (override, uri.split(override)[1])
+
     length = len(uri)
     for i in range(0, length):
         c = uri[-i - 1]

@@ -8,6 +8,7 @@ from rdflib.namespace import RDF, RDFS, SKOS, XSD, DOAP, FOAF, OWL
 from namespace import NamespaceManager, split_uri
 from graph_element import Node
 from utils import Config, SCHEMA
+import json
 
 
 query_classes = prepareQuery("""
@@ -24,9 +25,9 @@ common_ns = set(map(lambda ns: ns.uri, (RDF, RDFS, SKOS, SCHEMA, XSD, DOAP, FOAF
 
 
 class OntologyGraph:
-    def __init__(self, files, config, format='ttl', ontology=None):
+    def __init__(self, files, config, format='ttl', ontology=None, namespace_overrides=[]):
         self.g = Graph()
-        self.g.namespace_manager = NamespaceManager(self.g)
+        self.g.namespace_manager = NamespaceManager(self.g, namespace_overrides)
         if ontology is not None:
             g = Graph()
             self._load_files(g, ontology)
@@ -222,8 +223,26 @@ if __name__ == '__main__':
                         help='Provided ontology for the graph.')
     parser.add_argument('-C', '--config', dest='config', default=None,
                         help='Provided configuration.')
+    parser.add_argument('-j', '--namespace-overrides-json', dest='namespace_overrides_json', default=None,
+                        help='Namespace overrides JSON file path')
+    parser.add_argument('-n', '--namespace-overrides', dest='namespace_overrides', default=None,
+                        help='Namespace overrides in prefix1=uri1,prefix2=uri2 fashion.')
     args = parser.parse_args()
 
     config = Config(args.config)
-    og = OntologyGraph(args.files, config, args.format, ontology=args.ontology)
+    namespace_overrides = []
+    if args.namespace_overrides_json:
+        with open(args.namespace_overrides_json) as file:
+            namespace_overrides = json.load(file)
+
+    if args.namespace_overrides:
+        pairs = [pair.strip().split('=') for pair in args.namespace_overrides.split(",")]
+        for (prefix, uri) in pairs:
+            d = dict()
+            d["prefix"] = prefix
+            d["uri"] = uri
+            namespace_overrides.append(d)
+
+    print(namespace_overrides)
+    og = OntologyGraph(args.files, config, args.format, ontology=args.ontology, namespace_overrides=namespace_overrides)
     og.write_file(args.out)

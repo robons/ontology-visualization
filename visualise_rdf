@@ -1,0 +1,20 @@
+#!/bin/bash
+
+cwd=$(PWD)
+cd /Users/HA9WF3CZ/Code/ontology-visualization
+
+input=$1
+output=$2
+command="python ontology_viz.py -o $cwd/$input.dot -j namespace-overrides.json"
+
+if [ "$#" -gt 2 ]; then
+  shift
+  shift
+  export command="$command $@"
+fi
+
+export command="$command $cwd/$input"
+
+pipenv run $command
+
+dot -Tsvg -o $cwd/$output $cwd/$input.dot
