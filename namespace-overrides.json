@@ -22,5 +22,17 @@
     {
         "prefix": "trade",
         "uri": "http://gss-data.org.uk/data/gss_data/trade/"
+    },
+    {
+        "prefix": "sdmx-dimension",
+        "uri": "http://purl.org/linked-data/sdmx/2009/dimension#"
+    },
+    {
+        "prefix": "sdmx-attribute",
+        "uri": "http://purl.org/linked-data/sdmx/2009/attribute#"
+    },
+    {
+        "prefix": "ref-gov",
+        "uri": "http://reference.data.gov.uk/id/"
     }
 ]
