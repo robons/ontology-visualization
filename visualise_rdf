@@ -1,13 +1,15 @@
 #!/bin/bash
 
-cwd=$(PWD)
-cd /Users/HA9WF3CZ/Code/ontology-visualization
+cwd=inout
+type=$1
+input=$2
+output=$3
 
-input=$1
-output=$2
+cd /workspace
 command="python ontology_viz.py -o $cwd/$input.dot -j namespace-overrides.json"
 
-if [ "$#" -gt 2 ]; then
+if [ "$#" -gt 3 ]; then
+  shift
   shift
   shift
   export command="$command $@"
@@ -17,4 +19,4 @@ export command="$command $cwd/$input"
 
 pipenv run $command
 
-dot -Tsvg -o $cwd/$output $cwd/$input.dot
+dot -T$type -o $cwd/$output $cwd/$input.dot

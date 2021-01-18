@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker run -v $(pwd):/workspace/inout ontology-visualisation ../visualise_rdf $@
