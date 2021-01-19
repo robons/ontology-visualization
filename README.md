@@ -24,7 +24,7 @@ The `<sparql_query_file>` **MUST** use the `CONSTRUCT {} WHERE {}` SPARQL syntax
 ### Overriding Prefixes
 
 ```bash
-% visualise_rdf <sparql_query_file> <img_type> prefix1=http://some.uri,prefix2=http://some.other.uri
+% visualise_rdf <sparql_query_file> <img_type> -n prefix1=http://some.uri,prefix2=http://some.other.uri
 ```
 
 This allows you to specify exactly which prefixes you want to use to shorten URIs which are too long in your visualisation.
