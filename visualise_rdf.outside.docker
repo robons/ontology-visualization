@@ -1,3 +1,10 @@
 #!/bin/bash
 
-docker run -v $(pwd):/workspace/inout ontology-visualisation ../visualise_rdf $@
+sparql_endpoint="https://staging.gss-data.org.uk/sparql"
+
+query_file=$1
+img_type=$2
+shift
+shift
+
+docker run -it -v "$(pwd):/workspace/inout" -e SPARQL_ENDPOINT="$sparql_endpoint" ontology-visualisation bash ../visualise_rdf "$query_file" "$img_type" $@

@@ -1,0 +1,36 @@
+
+#!/bin/bash
+
+echo "hi"
+
+cwd=inout
+
+sparql_endpoint="$1"
+query_file="$2"
+img_type="$3"
+shift
+shift
+shift
+
+echo $query_file
+echo $img_type
+
+results_file="$query_file.ttl"
+dot_file="$query_file.dot"
+img_file="$query_file.$img_type"
+
+echo $results_file
+echo $dot_file
+echo $img_file
+
+curl "$sparql_endpoint" --data "query=$(cat "$cwd/$query_file")" -X POST -H 'Accept:text/turtle' > "$results_file"
+
+
+cd /workspace
+command="python ontology_viz.py -o \"$dot_file\" -j namespace-overrides.json"
+
+export command="$command $@ \"$results_file\""
+
+pipenv run "$command"
+
+dot -T$img_type -o "$img_file" "$dot_file"
