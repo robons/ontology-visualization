@@ -13,7 +13,7 @@ git clone https://github.com/GSS-Cogs/ontology-visualization.git
 % visualise_rdf Get\ Most\ Dataset\ Metadata.sparql svg
 ```
 
-The script will automatically execute the <sparql_query_file> and output a graph of type <img_type>.
+The script will automatically execute the `<sparql_query_file>` and output a graph of type `<img_type>`. An output image file named `<sparql_query_file>.<img_type>` will be created, e.g. 'Get Most Dataset Metadata.sparql.svg'.
 
 ### N.B.
 
