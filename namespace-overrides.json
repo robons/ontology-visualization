@@ -34,5 +34,9 @@
     {
         "prefix": "ref-gov",
         "uri": "http://reference.data.gov.uk/id/"
+    },
+    {
+        "prefix": "stat-geog",
+        "uri": "http://statistics.data.gov.uk/id/statistical-geography/"
     }
 ]
