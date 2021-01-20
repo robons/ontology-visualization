@@ -38,5 +38,17 @@
     {
         "prefix": "stat-geog",
         "uri": "http://statistics.data.gov.uk/id/statistical-geography/"
+    },
+    {
+        "prefix": "pmdcat",
+        "uri": "http://publishmydata.com/pmdcat#"
+    },
+    {
+        "prefix": "pmdkos",
+        "uri": "http://publishmydata.com/def/pmdkos#"
+    },
+    {
+        "prefix": "pmdui",
+        "uri": "http://publishmydata.com/def/pmdui/"
     }
 ]

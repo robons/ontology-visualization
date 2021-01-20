@@ -12,6 +12,9 @@ results_file="$query_file.ttl"
 dot_file="$query_file.dot"
 img_file="$query_file.$img_type"
 
+layout_algorithm=${GRAPHVIZ_LAYOUT_ALGO:-dot}
+
+
 curl "$SPARQL_ENDPOINT" --data "query=$(cat "$query_file")" -X POST -H 'Accept:text/turtle' > "$results_file"
 
 cd /workspace
@@ -20,7 +23,7 @@ pipenv run python ontology_viz.py -o "$cwd/$dot_file" -j namespace-overrides.jso
 
 cd $cwd
  
-dot -T$img_type -o "$img_file" "$dot_file"
+dot -T$img_type -K "$layout_algorithm" -o "$img_file" "$dot_file"
 
 rm "$results_file"
 rm "$dot_file"
