@@ -16,6 +16,18 @@
         "uri": "http://gss-data.org.uk/def/concept/measurement-units/"
     },
     {
+        "prefix": "gss-dataset-graphs",
+        "uri": "http://gss-data.org.uk/graph/gss_data/"
+    },
+    {
+        "prefix": "gss",
+        "uri": "http://gss-data.org.uk/"
+    },
+    {
+        "prefix": "gss-catalogs",
+        "uri": "http://gss-data.org.uk/catalog/"
+    },
+    {
         "prefix": "covid19",
         "uri": "http://gss-data.org.uk/data/gss_data/covid-19/"
     },    

@@ -1,7 +1,15 @@
 #!/bin/bash
 
 docker build -t ontology-visualisation .
-cp visualise_rdf.outside.docker ~/.local/bin/visualise_rdf
-amend_path_command="export PATH=\"$HOME/.local/bin:\$PATH\""
-echo "$amend_path_command" >> ~/.bash_profile
-echo "$amend_path_command" >> ~/.zshenv
+
+install_directory="$HOME/.local/bin"
+
+cp visualise_rdf.outside.docker "$install_directory"/visualise_rdf
+amend_path_command="export PATH=\"$install_directory:\$PATH\""
+
+if [[ :$PATH: == *:"$install_directory":* ]]; then
+  echo "$install_directory already set in \$PATH"
+else
+  echo "$amend_path_command" >> ~/.bash_profile
+  echo "$amend_path_command" >> ~/.zshenv
+fi
