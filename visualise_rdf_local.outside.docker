@@ -1,14 +1,15 @@
 #!/bin/bash
 
-sparql_endpoint="https://staging.gss-data.org.uk/sparql"
 graphviz_algo=${GRAPHVIZ_LAYOUT_ALGO:-dot}
 
-query_file=$1
-img_type=$2
+rdf_data_file=$1
+query_file=$2
+img_type=$3
+shift
 shift
 shift
 
 docker run -it -v "$(pwd):/workspace/inout" \
-    -e SPARQL_ENDPOINT="$sparql_endpoint" \
     -e GRAPHVIZ_LAYOUT_ALGO="$graphviz_algo"  \
+    -e RDF_DATA_FILE="$rdf_data_file" \
     ontology-visualisation bash ../visualise_rdf "$query_file" "$img_type" $@

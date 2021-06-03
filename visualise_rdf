@@ -14,8 +14,14 @@ img_file="$query_file.$img_type"
 
 layout_algorithm=${GRAPHVIZ_LAYOUT_ALGO:-dot}
 
+if [ -z $SPARQL_ENDPOINT ];
+then
+    # SPARQL endpoint not defined, we should have an RDF file specified
+    sparql --data "$RDF_DATA_FILE" --query "$query_file" > "$results_file"
+else
+    curl "$SPARQL_ENDPOINT" --data "query=$(cat "$query_file")" -X POST -H 'Accept:text/turtle' > "$results_file"
+fi
 
-curl "$SPARQL_ENDPOINT" --data "query=$(cat "$query_file")" -X POST -H 'Accept:text/turtle' > "$results_file"
 
 cd /workspace
 
